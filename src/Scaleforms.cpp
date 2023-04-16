@@ -33,7 +33,7 @@ namespace Scaleforms {
 			return true;
 		}
 
-		void HandleEvent(const RE::ButtonEvent* inputEvent) override {
+		void OnButtonEvent(const RE::ButtonEvent* inputEvent) override {
 			uint32_t keyCode;
 
 			if (g_menuAllowTextInput)
@@ -60,7 +60,7 @@ namespace Scaleforms {
 			sendKeyEvent(keyCode, isDown);
 		}
 
-		void HandleEvent(const RE::ThumbstickEvent* inputEvent) override {
+		void OnThumbstickEvent(const RE::ThumbstickEvent* inputEvent) override {
 			if (inputEvent->idCode != RE::ThumbstickEvent::THUMBSTICK_ID::kLeft)
 				return;
 
