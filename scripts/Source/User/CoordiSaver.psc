@@ -2,6 +2,7 @@ Scriptname CoordiSaver Native Hidden
 
 Form[] Function LoadSlotFromFile(string slot) global native
 bool Function SaveSlotToFile(string slot) global native
+String Function GetRandomSlot() global native
 Function ShowMenu() global native
 
 Function UnequipAll(Actor akTarget) global
@@ -20,10 +21,10 @@ Function LoadSlot(string slot) global
         Return
     EndIf
 
-	Actor akTarget = (Game.GetCurrentConsoleRef() as Actor)
-	if !akTarget
+    Actor akTarget = (Game.GetCurrentConsoleRef() as Actor)
+    if !akTarget
         akTarget = Game.GetPlayer();
-	EndIf
+    EndIf
 
     UnequipAll(akTarget)
 
@@ -34,6 +35,16 @@ Function LoadSlot(string slot) global
     EndWhile
 
     Debug.Notification("슬롯 " + slot + "의 의상들을 불러왔습니다.")
+EndFunction
+
+Function LoadRandomSlot() global
+    String slot = GetRandomSlot()
+    If slot == ""
+        Debug.Notification("슬롯을 가져올 수 없습니다.")
+        Return
+    EndIf
+
+    LoadSlot(slot)
 EndFunction
 
 Function SaveSlot(string slot) global

@@ -1,5 +1,6 @@
 #include "CoordiSlots.h"
 
+#include <regex>
 #include <fstream>
 
 #include "Utils.h"
@@ -122,6 +123,29 @@ namespace CoordiSlots {
 			}
 
 			retVec.push_back(form);
+		}
+
+		return retVec;
+	}
+
+	std::vector<std::string> GetSlotList() {
+		std::vector<std::string> retVec;
+
+		const std::filesystem::path slot_dir{ "Data\\F4SE\\Plugins\\" + std::string(Version::PROJECT) + "_Slots" };
+		const std::regex filter(".*\\.codss", std::regex_constants::icase);
+		const std::filesystem::directory_iterator dir_iter(slot_dir);
+		for (auto& iter : dir_iter) {
+			if (!std::filesystem::is_regular_file(iter.status()))
+				continue;
+
+			if (!std::regex_match(iter.path().filename().string(), filter))
+				continue;
+
+			std::string s_fileName = iter.path().filename().string();
+			size_t lastDotIdx = s_fileName.find_last_of(".");
+			std::string rawName = s_fileName.substr(0, lastDotIdx);
+
+			retVec.push_back(rawName);
 		}
 
 		return retVec;
